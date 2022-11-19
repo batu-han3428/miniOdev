@@ -1,0 +1,117 @@
+﻿@model VeriGirisiDTO
+@using miniOdev.Languages
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Lang> _stringLocalizer;
+
+@{
+    ViewData["Title"] = @_stringLocalizer["page.DataInput"];
+}
+
+<div class="row veriGirisiMain">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">   
+        <div class="card">
+            <div class="card-header">@_stringLocalizer["page.DataEntryForm"]</div>
+            <div class="card-body">
+                <form id="veriGirisiForm" class="row g-3 needs-validation" novalidate onSubmit="event.preventDefault();">
+                    <div class="mb-3">
+                        <label value="@Model.Ad" for="userName" class="form-label">@_stringLocalizer["page.Name"]</label>
+                        <input asp-for="Ad" value="@Model.Ad" type="text" class="form-control" id="userName" required>                  
+                    </div>
+                    <div class="mb-3">
+                        <label value="@Model.Soyad" for="surName" class="form-label">@_stringLocalizer["page.SurName"]</label>
+                        <input asp-for="Soyad" value="@Model.Soyad" type="text" class="form-control" id="surName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label value="@Model.Cinsiyet" for="gender" class="form-label">@_stringLocalizer["page.Gender"]</label>
+                        <select id="gender" asp-for="Cinsiyet" value="@Model.Cinsiyet" tabindex="-1" class="form-select" required>
+                            <option disabled selected value="">@_stringLocalizer["page.Gender"]</option>
+                            <option value="1">@_stringLocalizer["page.Woman"]</option>
+                            <option value="2">@_stringLocalizer["page.Male"]</option>
+                            <option value="3">@_stringLocalizer["page.Other"]</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label value="@Model.KanGrubu" for="bloodGroup" class="form-label">@_stringLocalizer["page.BloodGroup"]</label>
+                        <input asp-for="KanGrubu" value="@Model.KanGrubu" type="text" class="form-control" id="bloodGroup" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-100">@_stringLocalizer["page.Save"]</button>
+                    </div>                
+                </form>
+            </div>
+        </div>     
+    </div>
+    <div class="col-md-4"></div>
+</div>
+@section Scripts {
+   <script>
+       (function () {
+          'use strict'
+
+          var forms = document.querySelectorAll('.needs-validation')
+
+          Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+              form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+              }, false)
+            })
+        })()
+
+
+        $("#veriGirisiForm").submit(function( event ) {
+         
+            let userName = $('#userName').val();
+            let surName = $('#surName').val();
+            let gender = $('#gender').val();
+            let bloodGroup = $('#bloodGroup').val();
+
+            var page = "https://localhost:7271/Home/VeriGirisi";
+
+            var veriGirisiDTO = new Object();
+            veriGirisiDTO.Ad = userName;
+            veriGirisiDTO.Soyad = surName;
+            veriGirisiDTO.Cinsiyet = gender;
+            veriGirisiDTO.KanGrubu = bloodGroup;
+ 
+            $.ajax({
+                type: "POST",
+                data: veriGirisiDTO,
+                url: page,
+                success: function (e) {
+
+                    if (e.result == false) {
+                        swal({
+                            title: "Beklenmeyen bir hata oluştu!",
+                            icon: "danger",
+                            button: "Geri",
+                        });
+                        return false;
+                    } else if (e.result == true) {
+                        swal({
+                            title: "Kayıt başarılı!",
+                            icon: "success",
+                            button: "Geri",
+                        });
+                    } else {
+                        $('#userName').val(e.ad);
+                        $('#surName').val(e.soyad);
+                        $('#gender').val(e.cinsiyet);
+                        $('#bloodGroup').val(e.kanGrubu);
+                    }
+                },
+                error: function (hata, ajaxoptions, throwerror) {
+                    console.log("Hata :" + hata.status + " " + throwerror + " " + hata.responseText);
+                }
+            });
+
+        });
+
+   </script>
+}

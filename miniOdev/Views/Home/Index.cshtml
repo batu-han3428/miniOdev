@@ -1,0 +1,8 @@
+﻿@using miniOdev.Languages
+@using Microsoft.Extensions.Localization
+
+
+@inject IStringLocalizer<Lang> _stringLocalizer;
+@{
+    ViewData["Title"] = @_stringLocalizer["page.Home"];
+}
