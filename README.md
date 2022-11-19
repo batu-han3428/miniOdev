@@ -1,0 +1,2 @@
+# miniOdev
+https://batuhanfindik.com/
