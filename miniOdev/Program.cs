@@ -3,6 +3,7 @@ using BL.Models;
 using DAL.Concrete;
 using DAL.Models;
 using MAP;
+using miniOdev.Extension;
 using miniOdev.Middlewares;
 using System.Globalization;
 
@@ -23,6 +24,8 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy => {
 builder.Services.AddScoped<IVeriGirisiServices, VeriGirisiServices>();
 builder.Services.AddScoped<IVeriGirisiRepository, VeriGirisiRepository>();
 
+builder.Services.IdentityServerAyarlari();
+builder.Services.CookieAyarlari();
 
 builder.Services.AddLocalization(options =>
 {
@@ -66,6 +69,8 @@ app.UseRequestLocalization();
 app.UseRequestLocalizationCookies();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = @_stringLocalizer["page.DataInput"];
 }
-
+@await Component.InvokeAsync("Loading")
 <div class="row veriGirisiMain">
     <div class="col-md-4"></div>
     <div class="col-md-4">   
@@ -46,6 +46,13 @@
 </div>
 @section Scripts {
    <script>
+        
+           $(document).ready(function() {
+            $('body').addClass('loaded');
+        });  
+                
+   
+
        (function () {
           'use strict'
 
@@ -72,7 +79,7 @@
             let gender = $('#gender').val();
             let bloodGroup = $('#bloodGroup').val();
 
-            var page = "https://localhost:7271/Home/VeriGirisi";
+            var page = "https://batuhanfindik.com/Home/VeriGirisi";
 
             var veriGirisiDTO = new Object();
             veriGirisiDTO.Ad = userName;

@@ -6,3 +6,13 @@
 @{
     ViewData["Title"] = @_stringLocalizer["page.Home"];
 }
+
+@await Component.InvokeAsync("Loading")
+
+@section Scripts {
+   <script>
+        $(document).ready(function() {
+            $('body').addClass('loaded');
+        });   
+   </script>
+}     

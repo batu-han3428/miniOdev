@@ -6,7 +6,7 @@
     ViewData["Title"] = @_stringLocalizer["page.SeeList"];
 }
 @model List<ListeyiGorViewModel>
-
+@await Component.InvokeAsync("Loading")
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8 mt-5"> 
@@ -60,6 +60,11 @@
                     scrollCollapse: true,
                 });
 
+
+                 
+         $(document).ready(function() {
+            $('body').addClass('loaded');
+        });  
                 
     </script>
 }
