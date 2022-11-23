@@ -6,6 +6,13 @@ using MAP;
 using miniOdev.Extension;
 using miniOdev.Middlewares;
 using System.Globalization;
+using Quartz;
+using Quartz.Impl;
+using RabbitMQ.Core.Concrete;
+using RabbitMQ.Core.Abstract;
+using RabbitMQ.Core.Data;
+using RabbitMQ.Core.Entities;
+using miniOdev.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +30,31 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy => {
 
 builder.Services.AddScoped<IVeriGirisiServices, VeriGirisiServices>();
 builder.Services.AddScoped<IVeriGirisiRepository, VeriGirisiRepository>();
+builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
+builder.Services.AddScoped<IRabbitMQConfiguration, RabbitMQConfiguration>();
+builder.Services.AddScoped<IObjectConvertFormat, ObjectConvertToFormatManager>();
+builder.Services.AddScoped<IMailSender, MailSender>();
+builder.Services.AddScoped<IDataModel<User>, UsersDataModel>();
+builder.Services.AddScoped<ISmtpConfiguration, SmtpConfiguration>();
+builder.Services.AddScoped<IPublisherService, PublisherManager>();
+builder.Services.AddScoped<IConsumerService, ConsumerManager>();
+builder.Services.AddScoped<IJobServices, JobServices>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+
+builder.Services.AddQuartz(q =>
+{
+    // Joblarýmý oluþturduðum servisi baþlatýyorum
+    SchedulerHelper.ZamanlayiciMail();
+    q.UseMicrosoftDependencyInjectionJobFactory();
+});
+// ASP.NET Core hosting
+builder.Services.AddQuartzHostedService(options =>
+{
+    // when shutting down we want jobs to complete gracefully
+    options.WaitForJobsToComplete = true;
+});
+
+
 
 builder.Services.IdentityServerAyarlari();
 builder.Services.CookieAyarlari();

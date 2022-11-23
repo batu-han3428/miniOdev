@@ -26,10 +26,20 @@ namespace DOMAIN.Context
         }
 
         public DbSet<HastaBilgileri> HastaBilgileri { get; set; }
+        public DbSet<JobTable> JobTable { get; set; }
+        public DbSet<JobType> JobType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //new DbInitializer(modelBuilder).Configure();
+
+            modelBuilder.Entity<JobTable>()
+                .HasQueryFilter(p => p.IS_ACTIVE == true);
+
+            modelBuilder.Entity<JobTable>()
+              .HasOne<JobType>(s => s.JobType)
+              .WithMany(g => g.jobTable);
+
             base.OnModelCreating(modelBuilder);
         }
 

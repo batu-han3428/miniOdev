@@ -3,11 +3,14 @@ using BL.Models;
 using Common.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using miniOdev.Helpers;
 using miniOdev.Languages;
 using miniOdev.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
+using Quartz;
+using Quartz.Impl;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -20,12 +23,14 @@ namespace miniOdev.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
         private readonly IVeriGirisiServices _veriGirisiServices;
+        private readonly IJobServices _jobServices;
 
-        public HomeController(ILogger<HomeController> logger, IMapper mapper, IVeriGirisiServices VeriGirisiServices)
+        public HomeController(ILogger<HomeController> logger, IMapper mapper, IVeriGirisiServices VeriGirisiServices, IJobServices JobServices)
         {
             _logger = logger;
             _mapper = mapper;
             _veriGirisiServices = VeriGirisiServices;
+            _jobServices = JobServices;
         }
 
         public static DataTable ToDataTable<T>(List<T> items)
@@ -117,14 +122,15 @@ namespace miniOdev.Controllers
 
 
 
-   
+
+
             return View(/*File(
                 fileContents: ExcelOlustur(),
                 contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 fileDownloadName: "TextExcel.xlsx"
                */ );
         }
-
+     
         public IActionResult VeriGirisi()
         {         
             return View(new VeriGirisiDTO());
