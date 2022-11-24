@@ -18,5 +18,7 @@ namespace DOMAIN.Models
         public int? DAY { get; set; }
         public Boolean IS_ACTIVE { get; set; }
         public string? DESCRIPTION { get; set; }
+        //public string UserId { get; set; }
+        public CustomUser CustomUser { get; set; }
     }
 }

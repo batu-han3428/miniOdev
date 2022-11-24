@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DOMAIN.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20221123115713_JobTableUpdate2")]
-    partial class JobTableUpdate2
+    [Migration("20221124175842_JobTableUpdate")]
+    partial class JobTableUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -130,6 +130,10 @@ namespace DOMAIN.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_JOB"), 1L, 1);
 
+                    b.Property<string>("CustomUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int?>("DAY")
                         .HasColumnType("int");
 
@@ -151,6 +155,8 @@ namespace DOMAIN.Migrations
 
                     b.HasKey("ID_JOB");
 
+                    b.HasIndex("CustomUserId");
+
                     b.HasIndex("JobTypeID_JOB_TYPE");
 
                     b.ToTable("JobTable");
@@ -171,6 +177,23 @@ namespace DOMAIN.Migrations
                     b.HasKey("ID_JOB_TYPE");
 
                     b.ToTable("JobType");
+
+                    b.HasData(
+                        new
+                        {
+                            ID_JOB_TYPE = 1,
+                            JOB_TYPE_NAME = "Günlük"
+                        },
+                        new
+                        {
+                            ID_JOB_TYPE = 2,
+                            JOB_TYPE_NAME = "Haftalık"
+                        },
+                        new
+                        {
+                            ID_JOB_TYPE = 3,
+                            JOB_TYPE_NAME = "Aylık"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -308,11 +331,19 @@ namespace DOMAIN.Migrations
 
             modelBuilder.Entity("DOMAIN.Models.JobTable", b =>
                 {
+                    b.HasOne("DOMAIN.Models.CustomUser", "CustomUser")
+                        .WithMany("jobTable")
+                        .HasForeignKey("CustomUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DOMAIN.Models.JobType", "JobType")
                         .WithMany("jobTable")
                         .HasForeignKey("JobTypeID_JOB_TYPE")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CustomUser");
 
                     b.Navigation("JobType");
                 });
@@ -366,6 +397,11 @@ namespace DOMAIN.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.CustomUser", b =>
+                {
+                    b.Navigation("jobTable");
                 });
 
             modelBuilder.Entity("DOMAIN.Models.JobType", b =>

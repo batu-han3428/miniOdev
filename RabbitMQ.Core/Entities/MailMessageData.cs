@@ -13,6 +13,7 @@ namespace RabbitMQ.Core.Entities
         public string From { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
+        public Attachment Attachment { get; set; }
 
         public MailMessage GetMailMessage()
         {
@@ -23,6 +24,7 @@ namespace RabbitMQ.Core.Entities
                 From = new MailAddress(this.From)
             };
             mailMessage.To.Add(To);
+            mailMessage.Attachments.Add(Attachment);
             return mailMessage;
         }
     }

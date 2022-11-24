@@ -24,6 +24,23 @@ namespace DOMAIN.Helpers
             modelBuilder.Entity<HastaBilgileri>().Property(x => x.Soyad).IsRequired();
             modelBuilder.Entity<HastaBilgileri>().Property(x => x.Cinsiyet).IsRequired();
             modelBuilder.Entity<HastaBilgileri>().Property(x => x.KanGrubu).IsRequired();
+
+            modelBuilder.Entity<JobTable>()
+               .HasQueryFilter(p => p.IS_ACTIVE == true);
+
+            modelBuilder.Entity<JobTable>()
+              .HasOne<JobType>(s => s.JobType)
+              .WithMany(g => g.jobTable);
+
+            modelBuilder.Entity<JobTable>()
+              .HasOne<CustomUser>(s => s.CustomUser)
+              .WithMany(g => g.jobTable);
+
+            modelBuilder.Entity<JobType>().HasData(
+               new JobType { ID_JOB_TYPE = 1, JOB_TYPE_NAME = "Günlük" },
+               new JobType { ID_JOB_TYPE = 2, JOB_TYPE_NAME = "Haftalık" },
+               new JobType { ID_JOB_TYPE = 3, JOB_TYPE_NAME = "Aylık" }
+           );
         }
     }
 

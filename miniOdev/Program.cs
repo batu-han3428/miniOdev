@@ -13,6 +13,7 @@ using RabbitMQ.Core.Abstract;
 using RabbitMQ.Core.Data;
 using RabbitMQ.Core.Entities;
 using miniOdev.Helpers;
+using static miniOdev.Helpers.JobExecuteService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,11 +41,34 @@ builder.Services.AddScoped<IPublisherService, PublisherManager>();
 builder.Services.AddScoped<IConsumerService, ConsumerManager>();
 builder.Services.AddScoped<IJobServices, JobServices>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<RealJob>();
+
+
 
 builder.Services.AddQuartz(q =>
 {
+    var serviceCollection = new ServiceCollection();
+    serviceCollection.AddScoped<RealJob>();
+    serviceCollection.AddScoped<IVeriGirisiServices, VeriGirisiServices>();
+    serviceCollection.AddScoped<IVeriGirisiRepository, VeriGirisiRepository>();
+    serviceCollection.AddScoped<IRabbitMQService, RabbitMQService>();
+    serviceCollection.AddScoped<IRabbitMQConfiguration, RabbitMQConfiguration>();
+    serviceCollection.AddScoped<IObjectConvertFormat, ObjectConvertToFormatManager>();
+    serviceCollection.AddScoped<IMailSender, MailSender>();
+    serviceCollection.AddScoped<IDataModel<User>, UsersDataModel>();
+    serviceCollection.AddScoped<ISmtpConfiguration, SmtpConfiguration>();
+    serviceCollection.AddScoped<IPublisherService, PublisherManager>();
+    serviceCollection.AddScoped<IConsumerService, ConsumerManager>();
+    serviceCollection.AddScoped<IJobServices, JobServices>();
+    serviceCollection.AddScoped<IJobRepository, JobRepository>();
+    serviceCollection.AddScoped<IConfiguration>();
+    
+    var serviceProvider = builder.Services.BuildServiceProvider();
+
+
+
     // Joblarýmý oluþturduðum servisi baþlatýyorum
-    SchedulerHelper.ZamanlayiciMail();
+    SchedulerHelper.ZamanlayiciMail(serviceProvider);
     q.UseMicrosoftDependencyInjectionJobFactory();
 });
 // ASP.NET Core hosting

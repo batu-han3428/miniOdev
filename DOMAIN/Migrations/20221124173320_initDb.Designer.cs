@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DOMAIN.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20221122163545_identityOlusturulmasi")]
-    partial class identityOlusturulmasi
+    [Migration("20221124173320_initDb")]
+    partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,6 +120,67 @@ namespace DOMAIN.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HastaBilgileri");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.JobTable", b =>
+                {
+                    b.Property<int>("ID_JOB")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_JOB"), 1L, 1);
+
+                    b.Property<string>("CustomUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("DAY")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DESCRIPTION")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IS_ACTIVE")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JOB_KEY")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("JOB_TIME")
+                        .HasColumnType("time");
+
+                    b.Property<int>("JobTypeID_JOB_TYPE")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID_JOB");
+
+                    b.HasIndex("CustomUserId");
+
+                    b.HasIndex("JobTypeID_JOB_TYPE");
+
+                    b.ToTable("JobTable");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.JobType", b =>
+                {
+                    b.Property<int>("ID_JOB_TYPE")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_JOB_TYPE"), 1L, 1);
+
+                    b.Property<string>("JOB_TYPE_NAME")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID_JOB_TYPE");
+
+                    b.ToTable("JobType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -255,6 +316,25 @@ namespace DOMAIN.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("DOMAIN.Models.JobTable", b =>
+                {
+                    b.HasOne("DOMAIN.Models.CustomUser", "CustomUser")
+                        .WithMany("jobTable")
+                        .HasForeignKey("CustomUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DOMAIN.Models.JobType", "JobType")
+                        .WithMany("jobTable")
+                        .HasForeignKey("JobTypeID_JOB_TYPE")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CustomUser");
+
+                    b.Navigation("JobType");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -304,6 +384,16 @@ namespace DOMAIN.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.CustomUser", b =>
+                {
+                    b.Navigation("jobTable");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.JobType", b =>
+                {
+                    b.Navigation("jobTable");
                 });
 #pragma warning restore 612, 618
         }

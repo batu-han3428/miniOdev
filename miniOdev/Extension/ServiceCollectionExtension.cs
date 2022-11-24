@@ -9,7 +9,7 @@ namespace miniOdev.Extension
     {
         public static IServiceCollection IdentityServerAyarlari(this IServiceCollection services)
         {
-            services.AddDbContext<SqlDbContext>(opt => opt.UseSqlServer(@"server=94.73.170.25;Database=u0800400_minOdev;User Id=u0800400_odev;Password=MiniOdev34.....;"));
+            services.AddDbContext<SqlDbContext>(opt => opt.UseSqlServer(@"server=94.73.170.52;Database=u0800400_odev;User Id=u0800400_usOdev;Password=MiniOdev34.....;"));
 
             services.AddIdentity<CustomUser, IdentityRole>()
                        .AddEntityFrameworkStores<SqlDbContext>() // Hangi Database ile calisacagini belirtiyoruz

@@ -9,18 +9,18 @@ namespace DOMAIN.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "ID_JOB_TYPE",
+                name: "UserId",
                 table: "JobTable");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "ID_JOB_TYPE",
+            migrationBuilder.AddColumn<string>(
+                name: "UserId",
                 table: "JobTable",
-                type: "int",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: "");
         }
     }
 }

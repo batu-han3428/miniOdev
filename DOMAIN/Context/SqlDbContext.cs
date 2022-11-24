@@ -1,5 +1,6 @@
 ﻿using DOMAIN.Helpers;
 using DOMAIN.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,7 +23,7 @@ namespace DOMAIN.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=94.73.170.25;Database=u0800400_minOdev;User Id=u0800400_odev;Password=MiniOdev34.....;");
+            optionsBuilder.UseSqlServer(@"server=94.73.170.52;Database=u0800400_odev;User Id=u0800400_usOdev;Password=MiniOdev34.....;");
         }
 
         public DbSet<HastaBilgileri> HastaBilgileri { get; set; }
@@ -31,14 +32,7 @@ namespace DOMAIN.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //new DbInitializer(modelBuilder).Configure();
-
-            modelBuilder.Entity<JobTable>()
-                .HasQueryFilter(p => p.IS_ACTIVE == true);
-
-            modelBuilder.Entity<JobTable>()
-              .HasOne<JobType>(s => s.JobType)
-              .WithMany(g => g.jobTable);
+            new DbInitializer(modelBuilder).Configure();
 
             base.OnModelCreating(modelBuilder);
         }

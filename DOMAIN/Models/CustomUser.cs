@@ -10,5 +10,6 @@ namespace DOMAIN.Models
     public class CustomUser : IdentityUser
     {
         public string tc { get; set; }
+        public List<JobTable> jobTable { get; set; }
     }
 }

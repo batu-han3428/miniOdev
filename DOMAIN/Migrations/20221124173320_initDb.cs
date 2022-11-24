@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DOMAIN.Migrations
 {
-    public partial class identityOlusturulmasi : Migration
+    public partial class initDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +47,35 @@ namespace DOMAIN.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HastaBilgileri",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Soyad = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cinsiyet = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    KanGrubu = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HastaBilgileri", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobType",
+                columns: table => new
+                {
+                    ID_JOB_TYPE = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JOB_TYPE_NAME = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobType", x => x.ID_JOB_TYPE);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,6 +184,38 @@ namespace DOMAIN.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "JobTable",
+                columns: table => new
+                {
+                    ID_JOB = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    JobTypeID_JOB_TYPE = table.Column<int>(type: "int", nullable: false),
+                    JOB_KEY = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JOB_TIME = table.Column<TimeSpan>(type: "time", nullable: false),
+                    DAY = table.Column<int>(type: "int", nullable: true),
+                    IS_ACTIVE = table.Column<bool>(type: "bit", nullable: false),
+                    DESCRIPTION = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobTable", x => x.ID_JOB);
+                    table.ForeignKey(
+                        name: "FK_JobTable_AspNetUsers_CustomUserId",
+                        column: x => x.CustomUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_JobTable_JobType_JobTypeID_JOB_TYPE",
+                        column: x => x.JobTypeID_JOB_TYPE,
+                        principalTable: "JobType",
+                        principalColumn: "ID_JOB_TYPE",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,6 +254,16 @@ namespace DOMAIN.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobTable_CustomUserId",
+                table: "JobTable",
+                column: "CustomUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobTable_JobTypeID_JOB_TYPE",
+                table: "JobTable",
+                column: "JobTypeID_JOB_TYPE");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -213,10 +284,19 @@ namespace DOMAIN.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "HastaBilgileri");
+
+            migrationBuilder.DropTable(
+                name: "JobTable");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "JobType");
         }
     }
 }
