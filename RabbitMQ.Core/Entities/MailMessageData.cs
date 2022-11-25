@@ -15,7 +15,7 @@ namespace RabbitMQ.Core.Entities
         public string Body { get; set; }
         public Attachment Attachment { get; set; }
 
-        public MailMessage GetMailMessage()
+        public MailMessage GetMailMessage(byte[] excelData)
         {
             var mailMessage = new MailMessage
             {
@@ -24,7 +24,7 @@ namespace RabbitMQ.Core.Entities
                 From = new MailAddress(this.From)
             };
             mailMessage.To.Add(To);
-            mailMessage.Attachments.Add(Attachment);
+            mailMessage.Attachments.Add(new Attachment(new MemoryStream(excelData), "HastaBilgileri.xlsx", "application/vnd.ms-excel"));
             return mailMessage;
         }
     }

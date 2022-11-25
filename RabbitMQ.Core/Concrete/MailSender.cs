@@ -1,4 +1,5 @@
-﻿using RabbitMQ.Core.Abstract;
+﻿using BL.Models;
+using RabbitMQ.Core.Abstract;
 using RabbitMQ.Core.Consts;
 using RabbitMQ.Core.Entities;
 using System;
@@ -14,9 +15,11 @@ namespace RabbitMQ.Core.Concrete
     public class MailSender: IMailSender
     {
         private readonly ISmtpConfiguration _smtpConfiguration;
-        public MailSender(ISmtpConfiguration smtpConfiguration)
+        private readonly IVeriGirisiServices _veriGirisiServices;
+        public MailSender(ISmtpConfiguration smtpConfiguration, IVeriGirisiServices VeriGirisiServices)
         {
             _smtpConfiguration = smtpConfiguration;
+            _veriGirisiServices = VeriGirisiServices;
         }
 
         public async Task<MailSendResult> SendMailAsync(MailMessageData emailMessage)
@@ -24,7 +27,8 @@ namespace RabbitMQ.Core.Concrete
             Console.WriteLine($"EmailRabbitMQProcessor SendMailAsync method  => Calısma zamanı: {DateTime.Now.ToShortTimeString()}");
 
             MailSendResult result;
-            MailMessage mailMessage = emailMessage.GetMailMessage();
+            byte[] excelData = ExcelManager.ExcelOlustur(_veriGirisiServices.HastaBilgileriGoruntule());
+            MailMessage mailMessage = emailMessage.GetMailMessage(excelData);
             //mailMessage.From = new MailAddress(_smtpConfiguration.User);
             try
             {

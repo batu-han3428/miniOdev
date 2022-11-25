@@ -1,9 +1,11 @@
-﻿using Quartz;
+﻿using DOMAIN.Models;
+using Quartz;
 using Quartz.Spi;
 using RabbitMQ.Core.Abstract;
 using RabbitMQ.Core.Concrete;
 using RabbitMQ.Core.Consts;
 using RabbitMQ.Core.Entities;
+using System.Net.Mail;
 using System.Reflection;
 
 namespace miniOdev.Helpers
@@ -87,8 +89,8 @@ namespace miniOdev.Helpers
                         await Console.Out.WriteLineAsync("method null değil");
 
                         //result = true;
-
-                        var r = method.Invoke(this, new object[] { context.JobDetail.JobDataMap });
+                  
+                        var r = method.Invoke(this, new object[] { context.JobDetail.JobDataMap});
                     }
                 }
                 catch (Exception ex)
@@ -98,32 +100,35 @@ namespace miniOdev.Helpers
                 //return Task.FromResult(result);
             }
 
-            public void Job1(JobDataMap data)
+            public void Job1(JobDataMap jobDataMapObject)
             {
-                var veri = data.Values;
                 _publisherService.Enqueue(
-               PrepareMessages(),
-               RabbitMQConsts.RabbitMqConstsList.QueueNameEmail.ToString()
-               );
+                      PrepareMessages(jobDataMapObject.Values),
+                    RabbitMQConsts.RabbitMqConstsList.QueueNameEmail.ToString()
+                );
                 Console.WriteLine("job1 çalıştı");
             }
 
-
-            private IEnumerable<MailMessageData> PrepareMessages()
+            private IEnumerable<MailMessageData> PrepareMessages(ICollection<object> userDataObject)
             {
+                var userData = userDataObject.OfType<JobTable>().FirstOrDefault();
+                //var hastaBilgileriData = userDataObject.OfType<List<HastaBilgileri>>().FirstOrDefault();
+
+                //byte[] excelData = ExcelManager.ExcelOlustur(hastaBilgileriData);
 
                 var messages = new List<MailMessageData>();
 
                 messages.Add(new MailMessageData()
                 {
-                    To = "batu_6407@hotmail.com.tr",
+                    To = userData?.CustomUser.Email ?? "batu_6407@hotmail.com.tr",
                     From = Configuration.GetSection("SmtpConfig:User").Value,
-                    Subject = "Mail Gönderimi",
-                    Body = "Mail gönderimi başarılı"
+                    Subject = "Hasta Bilgileri",
+                    Body = $"Merhaba {userData?.CustomUser.UserName}. Hasta bilgileri ektedir. Saygılarımızla."
                 });
 
                 return messages;
             }
+
         }
     }
 }
