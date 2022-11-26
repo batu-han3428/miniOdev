@@ -31,8 +31,9 @@ body {
 }
 
 
-
-
+.BirthdayDatePicker .ui-datepicker-year, .BirthdayDatePicker .ui-datepicker-month {
+    display: none;
+}
 
 
 

@@ -14,6 +14,12 @@ namespace DAL.Concrete
         {
             return context.Set<DOMAIN.Models.JobTable>().Include(x => x.JobType).Where(x => x.IS_ACTIVE == true).ToList();
         }
-       
+        public int JobBilgileriniEkle(DOMAIN.Models.JobTable jobTable)
+        {
+            context.JobTable.Add(jobTable);
+            
+            return context.SaveChanges();
+        }
+
     }
 }

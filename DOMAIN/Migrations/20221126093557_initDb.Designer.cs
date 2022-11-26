@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DOMAIN.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20221124173320_initDb")]
+    [Migration("20221126093557_initDb")]
     partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,6 +140,9 @@ namespace DOMAIN.Migrations
                     b.Property<string>("DESCRIPTION")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ID_JOB_TYPE")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IS_ACTIVE")
                         .HasColumnType("bit");
 
@@ -181,6 +184,23 @@ namespace DOMAIN.Migrations
                     b.HasKey("ID_JOB_TYPE");
 
                     b.ToTable("JobType");
+
+                    b.HasData(
+                        new
+                        {
+                            ID_JOB_TYPE = 1,
+                            JOB_TYPE_NAME = "Günlük"
+                        },
+                        new
+                        {
+                            ID_JOB_TYPE = 2,
+                            JOB_TYPE_NAME = "Haftalık"
+                        },
+                        new
+                        {
+                            ID_JOB_TYPE = 3,
+                            JOB_TYPE_NAME = "Aylık"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -120,6 +120,12 @@
   <data name="page.BloodGroup" xml:space="preserve">
     <value>Groupe sanguin</value>
   </data>
+  <data name="page.CreateTimer" xml:space="preserve">
+    <value>Créer Une Minuterie</value>
+  </data>
+  <data name="page.Daily" xml:space="preserve">
+    <value>Du Quotidien</value>
+  </data>
   <data name="page.DataEntryForm" xml:space="preserve">
     <value>Formulaire de saisie de données</value>
   </data>
@@ -135,6 +141,9 @@
   <data name="page.Male" xml:space="preserve">
     <value>Masculin</value>
   </data>
+  <data name="page.Monthly" xml:space="preserve">
+    <value>Mensuel</value>
+  </data>
   <data name="page.Name" xml:space="preserve">
     <value>Nom</value>
   </data>
@@ -149,6 +158,12 @@
   </data>
   <data name="page.SurName" xml:space="preserve">
     <value>Nom de famille</value>
+  </data>
+  <data name="page.TimeDivision" xml:space="preserve">
+    <value>Période De Temps</value>
+  </data>
+  <data name="page.Weekly" xml:space="preserve">
+    <value>Hebdomadaire</value>
   </data>
   <data name="page.Woman" xml:space="preserve">
     <value>Femme</value>

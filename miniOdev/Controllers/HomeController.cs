@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
 using BL.Models;
 using Common.DTO;
+using DOMAIN.Context;
+using DOMAIN.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using miniOdev.Helpers;
 using miniOdev.Languages;
@@ -15,6 +19,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace miniOdev.Controllers
 {
@@ -24,106 +29,18 @@ namespace miniOdev.Controllers
         private readonly IMapper _mapper;
         private readonly IVeriGirisiServices _veriGirisiServices;
         private readonly IJobServices _jobServices;
-
-        public HomeController(ILogger<HomeController> logger, IMapper mapper, IVeriGirisiServices VeriGirisiServices, IJobServices JobServices)
+        private readonly UserManager<CustomUser> userManager;
+        public HomeController(ILogger<HomeController> logger, IMapper mapper, IVeriGirisiServices VeriGirisiServices, IJobServices JobServices, UserManager<CustomUser> userManager)
         {
             _logger = logger;
             _mapper = mapper;
             _veriGirisiServices = VeriGirisiServices;
             _jobServices = JobServices;
+            this.userManager = userManager;
         }
 
-        public static DataTable ToDataTable<T>(List<T> items)
-        {
-            DataTable dataTable = new DataTable(typeof(T).Name);
-
-            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo prop in Props)
-            {
-                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
-
-                dataTable.Columns.Add(prop.Name, type);
-            }
-            foreach (T item in items)
-            {
-                var values = new object[Props.Length];
-                for (int i = 0; i < Props.Length; i++)
-                {
-                    values[i] = Props[i].GetValue(item, null);
-                }
-                dataTable.Rows.Add(values);
-            }
-
-            return dataTable;
-        }
-        public byte[] ExcelOlustur()
-        {
-            byte[] fileContents;
-
-            List<DOMAIN.Models.HastaBilgileri> hastaBilgileri = _veriGirisiServices.HastaBilgileriGoruntule();
-            var table = ToDataTable(hastaBilgileri);
-
-
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (var package = new ExcelPackage())
-            {
-                var worksheet = package.Workbook.Worksheets.Add("Hasta_Bilgileri");
-
-                worksheet.Cells["A1"].LoadFromDataTable(table, true, TableStyles.Custom);
-
-
-                Color beyaz = System.Drawing.ColorTranslator.FromHtml("#ffffff");
-                Color acikYesil = System.Drawing.ColorTranslator.FromHtml("#a7f954");
-                Color koyuYesil = System.Drawing.ColorTranslator.FromHtml("#57aa05");
-                Color siyah = System.Drawing.ColorTranslator.FromHtml("#000000");
-
-
-                worksheet.Rows[1].Style.Font.Bold = true;
-                worksheet.Rows[1].Style.Font.Color.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor.Text1);
-                
-
-                for (var row = 1; row < 2; row++)
-                {
-                    for (var column = 1; column <= table.Columns.Count; column++)
-                    {
-                        worksheet.Cells[row, column].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        worksheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(acikYesil);
-                        worksheet.Cells[row, column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                        worksheet.Cells[row, column].Style.Indent = 5;
-                    }
-                }
-
-
-                for (var row = 2; row <= table.Rows.Count+1; row++)
-                {
-                    for (var column = 1; column <= table.Columns.Count; column++)
-                    {
-                        worksheet.Cells[row, column].Style.Font.Bold = false;
-                        worksheet.Cells[row, column].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                        worksheet.Cells[row, column].Style.Font.Color.SetColor(row % 2 == 0
-                           ? siyah
-                           : Color.White);
-                        worksheet.Cells[row, column].Style.Fill.BackgroundColor.SetColor(row % 2 == 0
-                           ? Color.White
-                           : koyuYesil);
-                        worksheet.Cells[row, column].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                        worksheet.Cells[row, column].Style.Indent = 5;
-                    }
-                }
-
-
-                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
-                return fileContents = package.GetAsByteArray();
-            }
-
-        }
         public IActionResult Index()
         {
-
-
-
-
-
             return View(/*File(
                 fileContents: ExcelOlustur(),
                 contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -161,6 +78,50 @@ namespace miniOdev.Controllers
             List<Common.ViewModel.ListeyiGorViewModel> listeyiGorViewModels = _mapper.Map<List<Common.ViewModel.ListeyiGorViewModel>>(hastaBilgileri);
 
             return View(listeyiGorViewModels);
+        }
+
+        public IActionResult JobPage()
+        {
+
+            return View(new JobTableDTO());
+        }
+
+        [HttpPost]
+        public JsonResult JobPage(JobTableDTO jobTableDTO)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return Json(jobTableDTO);
+
+                //List<JobTable?> veri;
+                //using (var context = new SqlDbContext())
+                //{
+                //      veri = context.JobTable.Where(x => x.JobType.ID_JOB_TYPE == jobTableDTO.jobType.ID_JOB_TYPE).AsNoTracking().ToList();
+                //}
+
+                jobTableDTO.CustomUserId = userManager.GetUserId(User);
+                jobTableDTO.JOB_KEY = "Job1";
+                jobTableDTO.IS_ACTIVE = true;
+                jobTableDTO.DESCRIPTION = "JOB1";
+
+
+                DOMAIN.Models.JobTable jobTable = _mapper.Map<DOMAIN.Models.JobTable>(jobTableDTO);
+
+                if (_jobServices.JobTableKaydet(jobTable) == 1)
+                {
+                    //Console.WriteLine(SchedulerHelper.ResetJob());
+                    return Json(new { result = true });
+                }
+                else
+                    return Json(new { result = false });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(new { result = false });
+            }
+            
         }
 
         public IActionResult Privacy()

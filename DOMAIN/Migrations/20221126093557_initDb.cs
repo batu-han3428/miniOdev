@@ -190,6 +190,7 @@ namespace DOMAIN.Migrations
                 {
                     ID_JOB = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_JOB_TYPE = table.Column<int>(type: "int", nullable: false),
                     JobTypeID_JOB_TYPE = table.Column<int>(type: "int", nullable: false),
                     JOB_KEY = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JOB_TIME = table.Column<TimeSpan>(type: "time", nullable: false),
@@ -215,6 +216,21 @@ namespace DOMAIN.Migrations
                         principalColumn: "ID_JOB_TYPE",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "JobType",
+                columns: new[] { "ID_JOB_TYPE", "JOB_TYPE_NAME" },
+                values: new object[] { 1, "Günlük" });
+
+            migrationBuilder.InsertData(
+                table: "JobType",
+                columns: new[] { "ID_JOB_TYPE", "JOB_TYPE_NAME" },
+                values: new object[] { 2, "Haftalık" });
+
+            migrationBuilder.InsertData(
+                table: "JobType",
+                columns: new[] { "ID_JOB_TYPE", "JOB_TYPE_NAME" },
+                values: new object[] { 3, "Aylık" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

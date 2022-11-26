@@ -120,6 +120,12 @@
   <data name="page.BloodGroup" xml:space="preserve">
     <value>Kan Grubu</value>
   </data>
+  <data name="page.CreateTimer" xml:space="preserve">
+    <value>Zamanlayıcı Oluştur</value>
+  </data>
+  <data name="page.Daily" xml:space="preserve">
+    <value>Günlük</value>
+  </data>
   <data name="page.DataEntryForm" xml:space="preserve">
     <value>Veri Girişi Formu</value>
   </data>
@@ -135,6 +141,9 @@
   <data name="page.Male" xml:space="preserve">
     <value>Erkek</value>
   </data>
+  <data name="page.Monthly" xml:space="preserve">
+    <value>Aylık</value>
+  </data>
   <data name="page.Name" xml:space="preserve">
     <value>Ad</value>
   </data>
@@ -149,6 +158,12 @@
   </data>
   <data name="page.SurName" xml:space="preserve">
     <value>Soyad</value>
+  </data>
+  <data name="page.TimeDivision" xml:space="preserve">
+    <value>Zaman Bölümü</value>
+  </data>
+  <data name="page.Weekly" xml:space="preserve">
+    <value>Haftalık</value>
   </data>
   <data name="page.Woman" xml:space="preserve">
     <value>Kadın</value>

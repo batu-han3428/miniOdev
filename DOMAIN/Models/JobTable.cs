@@ -11,14 +11,14 @@ namespace DOMAIN.Models
     {
         [Key]
         public int ID_JOB { get; set; }
-        //public int ID_JOB_TYPE { get; set; }
-        public JobType JobType { get; set; }
+        public int JobTypeId { get; set; }
+        public virtual JobType JobType { get; set; }
         public string JOB_KEY { get; set; }
         public TimeSpan JOB_TIME { get; set; }
         public int? DAY { get; set; }
         public Boolean IS_ACTIVE { get; set; }
         public string? DESCRIPTION { get; set; }
-        //public string UserId { get; set; }
-        public CustomUser CustomUser { get; set; }
+        public string CustomUserId { get; set; }
+        public virtual CustomUser CustomUser { get; set; }
     }
 }

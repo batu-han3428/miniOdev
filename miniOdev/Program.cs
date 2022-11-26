@@ -44,6 +44,7 @@ builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<RealJob>();
 
 
+var serviceProvider = builder.Services.BuildServiceProvider();
 
 builder.Services.AddQuartz(q =>
 {
@@ -63,7 +64,7 @@ builder.Services.AddQuartz(q =>
     serviceCollection.AddScoped<IJobRepository, JobRepository>();
     serviceCollection.AddScoped<IConfiguration>();
     
-    var serviceProvider = builder.Services.BuildServiceProvider();
+   
 
 
 
@@ -116,7 +117,20 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
+//app.Use(async (context, task) =>
+//{
+//    //if(context.Request.Path == "/Home/JobPage" && context.Request.Method == "POST")
+//    //{
+//    //    Console.WriteLine("post jobpage");
+//    //}
+//    Console.WriteLine("start");
+//    Console.WriteLine(context);
+//    await task.Invoke();
+//    if (context.Request.Path == "/Home/JobPage" && context.Request.Method == "POST")
+//    {
+//        Console.WriteLine("post jobpage");
+//    }
+//});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -125,6 +139,8 @@ app.UseRequestLocalization();
 app.UseRequestLocalizationCookies();
 
 app.UseRouting();
+
+app.UseQuartzStopStart(serviceProvider);
 
 app.UseAuthentication();
 

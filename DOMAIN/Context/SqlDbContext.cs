@@ -23,7 +23,7 @@ namespace DOMAIN.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=94.73.170.52;Database=u0800400_odev;User Id=u0800400_usOdev;Password=MiniOdev34.....;");
+            optionsBuilder.UseSqlServer(@"server=94.73.151.19;Database=u0800400_dbOdev;User Id=u0800400_usOdev;Password=MiniOdev34.....;");
         }
 
         public DbSet<HastaBilgileri> HastaBilgileri { get; set; }

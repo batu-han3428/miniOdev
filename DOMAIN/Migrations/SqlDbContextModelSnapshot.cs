@@ -148,14 +148,14 @@ namespace DOMAIN.Migrations
                     b.Property<TimeSpan>("JOB_TIME")
                         .HasColumnType("time");
 
-                    b.Property<int>("JobTypeID_JOB_TYPE")
+                    b.Property<int>("JobTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("ID_JOB");
 
                     b.HasIndex("CustomUserId");
 
-                    b.HasIndex("JobTypeID_JOB_TYPE");
+                    b.HasIndex("JobTypeId");
 
                     b.ToTable("JobTable");
                 });
@@ -337,7 +337,7 @@ namespace DOMAIN.Migrations
 
                     b.HasOne("DOMAIN.Models.JobType", "JobType")
                         .WithMany("jobTable")
-                        .HasForeignKey("JobTypeID_JOB_TYPE")
+                        .HasForeignKey("JobTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

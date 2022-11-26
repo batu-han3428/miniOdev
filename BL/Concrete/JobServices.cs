@@ -21,5 +21,10 @@ namespace BL.Concrete
         {
             return _JobRepository.JobBilgileriniGetir();
         }
+
+        public int JobTableKaydet(DOMAIN.Models.JobTable jobTable)
+        {
+            return _JobRepository.JobBilgileriniEkle(jobTable);
+        }
     }
 }

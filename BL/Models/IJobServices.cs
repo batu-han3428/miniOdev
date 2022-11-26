@@ -10,5 +10,6 @@ namespace BL.Models
     public interface IJobServices
     {
         List<DOMAIN.Models.JobTable> JobBilgileriniGoruntule();
+        int JobTableKaydet(DOMAIN.Models.JobTable jobTable);
     }
 }

@@ -91,5 +91,25 @@ namespace miniOdev.Helpers
                 Console.WriteLine(ex.Message);
             }
         }
+        public static string ResetJob(IServiceProvider serviceProvider)
+        {
+            string message;
+            try
+            {
+                var schedContext = new StdSchedulerFactory();
+                var scheduler = schedContext.GetScheduler();
+
+                scheduler.Result.Shutdown();
+                System.Diagnostics.Debug.WriteLine("Joblar Durduruldu");
+                SchedulerHelper.ZamanlayiciMail(serviceProvider);
+                System.Diagnostics.Debug.WriteLine("Yeniden Başlatıldı");
+                message = "Joblar başarılı bir şekilde resetlendi.";
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
+            return message;
+        }
     }
 }

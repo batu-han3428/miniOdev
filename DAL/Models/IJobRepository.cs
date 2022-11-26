@@ -9,5 +9,6 @@ namespace DAL.Models
     public interface IJobRepository : IBaseRepository<DOMAIN.Models.JobTable>
     {
         List<DOMAIN.Models.JobTable> JobBilgileriniGetir();
+        int JobBilgileriniEkle(DOMAIN.Models.JobTable jobTable);
     }
 }

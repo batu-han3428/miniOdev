@@ -1,0 +1,158 @@
+﻿@using miniOdev.Languages
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<Lang> _stringLocalizer;
+@model JobTableDTO
+
+<div class="row veriGirisiMain">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">   
+        <div class="card">
+            <div class="card-header">@_stringLocalizer["page.CreateTimer"]</div>
+            <div class="card-body">
+                <form id="zamanlayiciForm" class="row g-3" onSubmit="event.preventDefault();">
+                    <div class="mb-3">
+                        <label value="@Model.JobTypeId" for="timedivision" class="form-label">@_stringLocalizer["page.TimeDivision"]</label>
+                        <select id="timedivision" asp-for="JobTypeId" value="@Model.JobTypeId" tabindex="-1" class="form-select" required>
+                            <option disabled selected value="">@_stringLocalizer["page.TimeDivision"]</option>
+                            <option value="1">@_stringLocalizer["page.Daily"]</option>
+                            <option value="2">@_stringLocalizer["page.Weekly"]</option>
+                            <option value="3">@_stringLocalizer["page.Monthly"]</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <p>Tarih: <input type="text" id="datepicker" readonly></p>              
+                    </div>
+                     <div class="mb-3">
+                        <p>Saat: <input id="timepicker" class="timepicker" required/></p>              
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-100">@_stringLocalizer["page.Save"]</button>
+                    </div>                
+                </form>
+            </div>
+        </div>     
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+@section Scripts {
+  <script>
+
+    let days = 29;
+  
+    $('#datepicker').datepicker( {
+        changeMonth: false,
+        changeYear: false,
+        dateFormat: 'dd',
+        showMonthAfterYear: false,
+        yearSuffix: "Lütfen Gün Seçiniz",
+        defaultDate: new Date(2022,4, 1),
+        dayNamesMin: ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"],
+        dayNames: ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
+        beforeShow: function (input, inst) {
+            inst.dpDiv.addClass('BirthdayDatePicker');
+        },
+        onClose: function(dateText, inst){
+            inst.dpDiv.removeClass('BirthdayDatePicker');
+        },
+        beforeShowDay: function(date) {
+          const day = date.getDate();
+          console.log(day)
+          const enable=(day < days);
+          return [enable,enable?'':'hide'];
+        }
+    }).focus(function() {
+      $(".ui-datepicker-prev, .ui-datepicker-next").remove();
+    });
+
+
+    $('#timedivision').on('change', function() {
+        console.log($(this).val())
+        if ($(this).val() === "1") {
+             $('#datepicker').attr('disabled', 'disabled');
+              $('#datepicker').val("");
+        }
+        else if ($(this).val() === "2") {
+            $('#datepicker').removeAttr('disabled');
+            days = 8;
+        }else {
+            days = 29;
+            $('#datepicker').removeAttr('disabled');
+        }
+    });
+
+    $('.timepicker').timepicker({
+        timeFormat: 'HH:mm:ss',
+        interval: 60,
+        minTime: '0',
+        maxTime: '11:00pm',
+        defaultTime: '24',
+        startTime: '00:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
+
+
+    $("#zamanlayiciForm").submit(function(event) { 
+        let DAY = $('#datepicker').val();
+        let JOB_TIME = $('#timepicker').val();
+        let JobTypeId = $('#timedivision').val();
+
+
+        if(JobTypeId !== "1" && DAY === ""){
+            swal({
+                title: "Tarih alanı zorunlu!",
+                icon: "error",
+                button: "Geri",
+            });
+            return false;
+        }
+        
+        var page = "https://localhost:7271/Home/JobPage";
+
+
+
+        //var JobType = new Object();
+        //JobType.ID_JOB_TYPE = jobType;
+        //JobType.JOB_TYPE_NAME = 'Haftalık';
+
+        var JobTableDTO = new Object();
+        JobTableDTO.JobTypeId = JobTypeId;
+        JobTableDTO.DAY = DAY;
+        JobTableDTO.JOB_TIME = JOB_TIME;
+
+ 
+        $.ajax({
+            type: "POST",
+            data: JobTableDTO,
+            url: page,
+            success: function (e) {
+
+                if (e.result == false) {
+                    swal({
+                        title: "Beklenmeyen bir hata oluştu!",
+                        icon: "error",
+                        button: "Geri",
+                    });
+                    return false;
+                } else if (e.result == true) {
+                    swal({
+                        title: "Kayıt başarılı!",
+                        icon: "success",
+                        button: "Geri",
+                    });
+                } else {
+                    $('#datepicker').val(e.DAY);
+                    $('#timepicker').val(e.JOB_TIME);
+                    $('#timedivision').val(e.JobTypeId);
+                }
+            },
+            error: function (hata, ajaxoptions, throwerror) {
+                console.log("Hata :" + hata.status + " " + throwerror + " " + hata.responseText);
+            }
+        });
+    })
+ 
+  </script>
+}
