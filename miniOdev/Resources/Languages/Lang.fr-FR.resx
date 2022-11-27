@@ -120,6 +120,9 @@
   <data name="page.BloodGroup" xml:space="preserve">
     <value>Groupe sanguin</value>
   </data>
+  <data name="page.ConfirmPassword" xml:space="preserve">
+    <value>Confirmer Le Mot De Passe</value>
+  </data>
   <data name="page.CreateTimer" xml:space="preserve">
     <value>Créer Une Minuterie</value>
   </data>
@@ -132,14 +135,35 @@
   <data name="page.DataInput" xml:space="preserve">
     <value>Entrée De Données</value>
   </data>
+  <data name="page.Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="page.EmailAddress" xml:space="preserve">
+    <value>Adresse é-mail</value>
+  </data>
+  <data name="page.English" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="page.French" xml:space="preserve">
+    <value>Français</value>
+  </data>
   <data name="page.Gender" xml:space="preserve">
     <value>Le genre</value>
   </data>
   <data name="page.Home" xml:space="preserve">
     <value>Page D'accueil</value>
   </data>
+  <data name="page.Hour" xml:space="preserve">
+    <value>Heure</value>
+  </data>
+  <data name="page.Login" xml:space="preserve">
+    <value>Le Login</value>
+  </data>
   <data name="page.Male" xml:space="preserve">
     <value>Masculin</value>
+  </data>
+  <data name="page.MembershipLogin" xml:space="preserve">
+    <value>Connexion D'adhésion</value>
   </data>
   <data name="page.Monthly" xml:space="preserve">
     <value>Mensuel</value>
@@ -150,17 +174,41 @@
   <data name="page.Other" xml:space="preserve">
     <value>Autre</value>
   </data>
+  <data name="page.Password" xml:space="preserve">
+    <value>Le Mot De Passe</value>
+  </data>
+  <data name="page.Register" xml:space="preserve">
+    <value>š'inscrire</value>
+  </data>
+  <data name="page.RememberMe" xml:space="preserve">
+    <value>Souviens-toi De Moi</value>
+  </data>
   <data name="page.Save" xml:space="preserve">
     <value>Enregistrer</value>
   </data>
   <data name="page.SeeList" xml:space="preserve">
     <value>Voir La Liste</value>
   </data>
+  <data name="page.SingOut" xml:space="preserve">
+    <value>Se Déconnecter</value>
+  </data>
   <data name="page.SurName" xml:space="preserve">
     <value>Nom de famille</value>
   </data>
   <data name="page.TimeDivision" xml:space="preserve">
     <value>Période De Temps</value>
+  </data>
+  <data name="page.Timer" xml:space="preserve">
+    <value>Minuteur</value>
+  </data>
+  <data name="page.TRID" xml:space="preserve">
+    <value>Identité TC</value>
+  </data>
+  <data name="page.Turkish" xml:space="preserve">
+    <value>Turc</value>
+  </data>
+  <data name="page.Username" xml:space="preserve">
+    <value>Nom D'utilisateur</value>
   </data>
   <data name="page.Weekly" xml:space="preserve">
     <value>Hebdomadaire</value>

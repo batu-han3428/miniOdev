@@ -29,7 +29,7 @@ namespace RabbitMQ.Core.Concrete
             MailSendResult result;
             byte[] excelData = ExcelManager.ExcelOlustur(_veriGirisiServices.HastaBilgileriGoruntule());
             MailMessage mailMessage = emailMessage.GetMailMessage(excelData);
-            //mailMessage.From = new MailAddress(_smtpConfiguration.User);
+
             try
             {
                 var smtpConfig = _smtpConfiguration.GetSmtpConfig();
@@ -60,21 +60,6 @@ namespace RabbitMQ.Core.Concrete
                 Thread.Sleep(MailConsts.SendTimeout);
             }
             return result;
-        }
-
-        private SmtpClient CreateSmtpClient(SmtpConfig config)
-        {
-            //SmtpClient client = new SmtpClient(config.Host, config.Port)
-            //{
-            //    EnableSsl = config.EnableSsl,
-            //    UseDefaultCredentials = !(string.IsNullOrWhiteSpace(config.User) && string.IsNullOrWhiteSpace(config.Password))
-            //};
-            //if (client.UseDefaultCredentials == true)
-            //{
-            //    client.Credentials = new NetworkCredential(config.User, config.Password);
-            //}
-            //return client;
-            return null;
         }
     }
 }

@@ -94,16 +94,14 @@ namespace miniOdev.Controllers
                 if (!ModelState.IsValid)
                     return Json(jobTableDTO);
 
-                //List<JobTable?> veri;
-                //using (var context = new SqlDbContext())
-                //{
-                //      veri = context.JobTable.Where(x => x.JobType.ID_JOB_TYPE == jobTableDTO.jobType.ID_JOB_TYPE).AsNoTracking().ToList();
-                //}
 
                 jobTableDTO.CustomUserId = userManager.GetUserId(User);
                 jobTableDTO.JOB_KEY = "Job1";
                 jobTableDTO.IS_ACTIVE = true;
                 jobTableDTO.DESCRIPTION = "JOB1";
+
+                if (jobTableDTO.JobTypeId == 2)
+                    jobTableDTO.DAY = jobTableDTO.DAY - 1;
 
 
                 DOMAIN.Models.JobTable jobTable = _mapper.Map<DOMAIN.Models.JobTable>(jobTableDTO);

@@ -8,7 +8,7 @@ namespace RabbitMQ.Core.Abstract
 {
     public interface IConsumerService : IDisposable
     {
-        Task /*void */Start();
+        Task Start();
         void Stop();
     }
 }

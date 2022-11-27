@@ -3,6 +3,10 @@
 @inject IStringLocalizer<Lang> _stringLocalizer;
 @model JobTableDTO
 
+@{
+    ViewData["Title"] = @_stringLocalizer["page.Timer"];
+}
+
 <div class="row veriGirisiMain">
     <div class="col-md-4"></div>
     <div class="col-md-4">   
@@ -20,13 +24,13 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <p>Tarih: <input type="text" id="datepicker" readonly></p>              
+                        <p>@_stringLocalizer["page.Date"]: <input class="w-100" type="text" id="datepicker" readonly></p>              
                     </div>
                      <div class="mb-3">
-                        <p>Saat: <input id="timepicker" class="timepicker" required/></p>              
+                        <p>@_stringLocalizer["page.Hour"]: <input id="timepicker" class="timepicker form-control" required/></p>              
                     </div>
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">@_stringLocalizer["page.Save"]</button>
+                        <button type="submit" class="btn btn-outline-primary w-100">@_stringLocalizer["page.Save"]</button>
                     </div>                
                 </form>
             </div>
@@ -57,7 +61,6 @@
         },
         beforeShowDay: function(date) {
           const day = date.getDate();
-          console.log(day)
           const enable=(day < days);
           return [enable,enable?'':'hide'];
         }
@@ -111,11 +114,6 @@
         
         var page = "https://localhost:7271/Home/JobPage";
 
-
-
-        //var JobType = new Object();
-        //JobType.ID_JOB_TYPE = jobType;
-        //JobType.JOB_TYPE_NAME = 'Haftalık';
 
         var JobTableDTO = new Object();
         JobTableDTO.JobTypeId = JobTypeId;

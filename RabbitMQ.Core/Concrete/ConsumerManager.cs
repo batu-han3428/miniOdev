@@ -37,7 +37,7 @@ namespace RabbitMQ.Core.Concrete
             _objectConvertFormat = objectConvertFormat;
         }
 
-        public async Task /*void*/ Start()
+        public async Task Start()
         {
             try
             {

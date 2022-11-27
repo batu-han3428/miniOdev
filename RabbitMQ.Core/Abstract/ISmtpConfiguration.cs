@@ -13,12 +13,8 @@ namespace RabbitMQ.Core.Abstract
     {
         string Host { get; }
         int Port { get; }
-        //string User { get; }
-        //string Password { get; }
-        //bool UseSSL { get; }
         NetworkCredential Credentials { get; }    
         bool EnableSsl { get; }
-
         bool UseDefaultCredentials { get; }
         SmtpDeliveryMethod DeliveryMethod { get; }
         SmtpConfig GetSmtpConfig();

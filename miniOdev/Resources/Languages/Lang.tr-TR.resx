@@ -120,6 +120,9 @@
   <data name="page.BloodGroup" xml:space="preserve">
     <value>Kan Grubu</value>
   </data>
+  <data name="page.ConfirmPassword" xml:space="preserve">
+    <value>Şifreyi Onayla</value>
+  </data>
   <data name="page.CreateTimer" xml:space="preserve">
     <value>Zamanlayıcı Oluştur</value>
   </data>
@@ -132,14 +135,35 @@
   <data name="page.DataInput" xml:space="preserve">
     <value>Veri Girişi</value>
   </data>
+  <data name="page.Date" xml:space="preserve">
+    <value>Tarih</value>
+  </data>
+  <data name="page.EmailAddress" xml:space="preserve">
+    <value>E-posta Adresi</value>
+  </data>
+  <data name="page.English" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="page.French" xml:space="preserve">
+    <value>Fransızca</value>
+  </data>
   <data name="page.Gender" xml:space="preserve">
     <value>Cinsiyet</value>
   </data>
   <data name="page.Home" xml:space="preserve">
     <value>Anasayfa</value>
   </data>
+  <data name="page.Hour" xml:space="preserve">
+    <value>Saat</value>
+  </data>
+  <data name="page.Login" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
   <data name="page.Male" xml:space="preserve">
     <value>Erkek</value>
+  </data>
+  <data name="page.MembershipLogin" xml:space="preserve">
+    <value>Üyelik Girişi</value>
   </data>
   <data name="page.Monthly" xml:space="preserve">
     <value>Aylık</value>
@@ -150,17 +174,41 @@
   <data name="page.Other" xml:space="preserve">
     <value>Diğer</value>
   </data>
+  <data name="page.Password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="page.Register" xml:space="preserve">
+    <value>Kayıt Ol</value>
+  </data>
+  <data name="page.RememberMe" xml:space="preserve">
+    <value>Beni Hatırla</value>
+  </data>
   <data name="page.Save" xml:space="preserve">
     <value>Kaydet</value>
   </data>
   <data name="page.SeeList" xml:space="preserve">
     <value>Listeyi Gör</value>
   </data>
+  <data name="page.SingOut" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
   <data name="page.SurName" xml:space="preserve">
     <value>Soyad</value>
   </data>
   <data name="page.TimeDivision" xml:space="preserve">
     <value>Zaman Bölümü</value>
+  </data>
+  <data name="page.Timer" xml:space="preserve">
+    <value>Zamanlayıcı</value>
+  </data>
+  <data name="page.TRID" xml:space="preserve">
+    <value>TC Kimlik</value>
+  </data>
+  <data name="page.Turkish" xml:space="preserve">
+    <value>Türkçe</value>
+  </data>
+  <data name="page.Username" xml:space="preserve">
+    <value>Kullanıcı Adı</value>
   </data>
   <data name="page.Weekly" xml:space="preserve">
     <value>Haftalık</value>

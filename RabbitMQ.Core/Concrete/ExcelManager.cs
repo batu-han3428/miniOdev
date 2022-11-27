@@ -41,7 +41,6 @@ namespace RabbitMQ.Core.Concrete
         {
             byte[] fileContents;
 
-            //List<DOMAIN.Models.HastaBilgileri> hastaBilgileri = _veriGirisiServices.HastaBilgileriGoruntule();
             var table = ToDataTable(hastaBilgileri);
 
 

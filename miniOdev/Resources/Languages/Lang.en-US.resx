@@ -120,6 +120,9 @@
   <data name="page.BloodGroup" xml:space="preserve">
     <value>Blood group</value>
   </data>
+  <data name="page.ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
   <data name="page.CreateTimer" xml:space="preserve">
     <value>Create Timer</value>
   </data>
@@ -132,14 +135,35 @@
   <data name="page.DataInput" xml:space="preserve">
     <value>Data Input</value>
   </data>
+  <data name="page.Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="page.EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="page.English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="page.French" xml:space="preserve">
+    <value>French</value>
+  </data>
   <data name="page.Gender" xml:space="preserve">
     <value>Gender</value>
   </data>
   <data name="page.Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="page.Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="page.Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
   <data name="page.Male" xml:space="preserve">
     <value>Male</value>
+  </data>
+  <data name="page.MembershipLogin" xml:space="preserve">
+    <value>Membership Login</value>
   </data>
   <data name="page.Monthly" xml:space="preserve">
     <value>Monthly</value>
@@ -150,17 +174,41 @@
   <data name="page.Other" xml:space="preserve">
     <value>Other</value>
   </data>
+  <data name="page.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="page.Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="page.RememberMe" xml:space="preserve">
+    <value>Remember Me</value>
+  </data>
   <data name="page.Save" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="page.SeeList" xml:space="preserve">
     <value>See List</value>
   </data>
+  <data name="page.SingOut" xml:space="preserve">
+    <value>Sing Out</value>
+  </data>
   <data name="page.SurName" xml:space="preserve">
     <value>Surname</value>
   </data>
   <data name="page.TimeDivision" xml:space="preserve">
     <value>Time Division</value>
+  </data>
+  <data name="page.Timer" xml:space="preserve">
+    <value>Timer</value>
+  </data>
+  <data name="page.TRID" xml:space="preserve">
+    <value>TR ID</value>
+  </data>
+  <data name="page.Turkish" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
+  <data name="page.Username" xml:space="preserve">
+    <value>User Name</value>
   </data>
   <data name="page.Weekly" xml:space="preserve">
     <value>Weekly</value>
