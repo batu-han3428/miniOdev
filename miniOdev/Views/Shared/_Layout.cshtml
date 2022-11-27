@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     @await RenderSectionAsync("Styles", required: false)
 </head>
-<body class="myBody">
+<body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -61,23 +61,22 @@
                             }
                         }
                     </ul>
+                    <div id="languagePicker" class="dropdown" style="margin-right:50px;">
+                        <a class="btn btn-outline-primary dropdown-toggle select-language" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img id="select-language-img"  /><span></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="en-US"><a class="dropdown-item" id="en-US" onclick="setLanguage(this)" href="javascript:void(0)"><span>@_stringLocalizer["page.English"]</span></a></li>
+                            <li class="fr-FR"><a class="dropdown-item" id="fr-FR" onclick="setLanguage(this)" href="javascript:void(0)"><span>@_stringLocalizer["page.French"]</span></a></li>
+                            <li class="tr-TR"><a class="dropdown-item" id="tr-TR" onclick="setLanguage(this)" href="javascript:void(0)"><span>@_stringLocalizer["page.Turkish"]</span></a></li>
+                        </ul>
+                    </div>  
                 </div>
-                <div id="languagePicker" class="dropdown" style="margin-right:50px;">
-                  <a class="btn btn-outline-primary dropdown-toggle select-language" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img id="select-language-img"  /><span></span>
-                  </a>
-
-                  <ul class="dropdown-menu">
-                    <li class="en-US"><a class="dropdown-item" id="en-US" onclick="setLanguage(this)" href="javascript:void(0)"><span>@_stringLocalizer["page.English"]</span></a></li>
-                    <li class="fr-FR"><a class="dropdown-item" id="fr-FR" onclick="setLanguage(this)" href="javascript:void(0)"><span>@_stringLocalizer["page.French"]</span></a></li>
-                    <li class="tr-TR"><a class="dropdown-item" id="tr-TR" onclick="setLanguage(this)" href="javascript:void(0)"><span>@_stringLocalizer["page.Turkish"]</span></a></li>
-                  </ul>
-                </div>  
             </div>                                 
         </nav>
     </header>
-    <div class="container" @*style="height:100%;"*@>
-        <main role="main" class="pb-3" @*style="height:100%;"*@>         
+    <div class="container">
+        <main role="main" class="pb-3">         
             @RenderBody()
         </main>
     </div>
