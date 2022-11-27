@@ -108,7 +108,7 @@ namespace miniOdev.Controllers
                     mailbuilder.Append($"<p> Merhaba {user.UserName} </p><br/>");
                     mailbuilder.Append($"Mail adresinizi onaylamak için aşagida ki linki tıklayın.<br/>");
 
-                    mailbuilder.Append($"<a href='https://localhost:7271/ConfirmEmail/?uid={user.Id}&code={code}'>Email Onaylayın</a>");
+                    mailbuilder.Append($"<a href='https://www.batuhanfindik.com/ConfirmEmail/?uid={user.Id}&code={code}'>Email Onaylayın</a>");
 
                     mailbuilder.Append("</body>");
 

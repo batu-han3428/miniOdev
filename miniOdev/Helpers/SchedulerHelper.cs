@@ -34,7 +34,7 @@ namespace miniOdev.Helpers
                         //Aylık
                         if (jobItem.JobType.ID_JOB_TYPE == 3 && (jobItem.DAY > 0 || jobItem.DAY <= 28))
                         {
-                            IJobDetail job = JobBuilder.Create<RealJob>().WithIdentity(jobItem.JOB_KEY, "MailGrup2").Build();
+                            IJobDetail job = JobBuilder.Create<RealJob>().WithIdentity(jobItem.JOB_KEY + jobItem.ID_JOB, "MailGrup2").Build();
                             job.JobDataMap["userData"] = jobItem;
 
                             ITrigger trigger = TriggerBuilder.Create()
@@ -49,7 +49,7 @@ namespace miniOdev.Helpers
                         //Haftalık
                         else if (jobItem.JobType.ID_JOB_TYPE == 2 && (jobItem.DAY >= 0 || jobItem.DAY <= 6))
                         {
-                            IJobDetail job = JobBuilder.Create<RealJob>().WithIdentity(jobItem.JOB_KEY, "MailGrup1").Build();
+                            IJobDetail job = JobBuilder.Create<RealJob>().WithIdentity(jobItem.JOB_KEY + jobItem.ID_JOB, "MailGrup1").Build();
                             job.JobDataMap["userData"] = jobItem;
 
                             ITrigger trigger = TriggerBuilder.Create()
@@ -64,11 +64,11 @@ namespace miniOdev.Helpers
                         //Günlük
                         else if (jobItem.JobType.ID_JOB_TYPE == 1)
                         {
-                            IJobDetail job = JobBuilder.Create<RealJob>().WithIdentity(jobItem.JOB_KEY, "MailGrup").Build();
+                            IJobDetail job = JobBuilder.Create<RealJob>().WithIdentity(jobItem.JOB_KEY+jobItem.ID_JOB, "MailGrup").Build();
                             job.JobDataMap["userData"] = jobItem;
 
                             ITrigger trigger = TriggerBuilder.Create()
-                            .WithIdentity("trigger3", "group1")
+                            .WithIdentity(jobItem.JOB_KEY + jobItem.ID_JOB, "group1")
                             .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(jobItem.JOB_TIME.Hours, jobItem.JOB_TIME.Minutes))
                             .ForJob(job)
                             .WithDescription(jobItem.DESCRIPTION)

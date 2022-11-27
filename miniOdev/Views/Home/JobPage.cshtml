@@ -70,7 +70,6 @@
 
 
     $('#timedivision').on('change', function() {
-        console.log($(this).val())
         if ($(this).val() === "1") {
              $('#datepicker').attr('disabled', 'disabled');
               $('#datepicker').val("");
@@ -112,8 +111,8 @@
             return false;
         }
         
-        var page = "https://localhost:7271/Home/JobPage";
-
+        //var page = "https://localhost:7271/Home/JobPage";
+        var page = "@Url.Action("JobPage", "Home")";
 
         var JobTableDTO = new Object();
         JobTableDTO.JobTypeId = JobTypeId;

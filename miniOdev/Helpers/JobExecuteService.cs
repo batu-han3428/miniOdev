@@ -46,16 +46,17 @@ namespace miniOdev.Helpers
                 {
 
                     await Console.Out.WriteLineAsync(context.JobDetail.Key.Name);
-                    MethodInfo method = typeof(RealJob).GetMethod(context.JobDetail.Key.Name);
+                    //MethodInfo method = typeof(RealJob).GetMethod(context.JobDetail.Key.Name);
 
 
                     await Console.Out.WriteLineAsync("execute calıstı");
-                    if (method != null)
-                    {
+                    //if (method != null)
+                    //{
                         await Console.Out.WriteLineAsync("method null değil");
-                  
-                        var r = method.Invoke(this, new object[] { context.JobDetail.JobDataMap});
-                    }
+
+                    //var r = method.Invoke(this, new object[] { context.JobDetail.JobDataMap});
+                    Job1(context.JobDetail.JobDataMap);
+                    //}
                 }
                 catch (Exception ex)
                 {
