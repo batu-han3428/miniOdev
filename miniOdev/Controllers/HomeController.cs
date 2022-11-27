@@ -3,6 +3,7 @@ using BL.Models;
 using Common.DTO;
 using DOMAIN.Context;
 using DOMAIN.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -80,6 +81,7 @@ namespace miniOdev.Controllers
             return View(listeyiGorViewModels);
         }
 
+        [Authorize]
         public IActionResult JobPage()
         {
 
@@ -87,6 +89,7 @@ namespace miniOdev.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult JobPage(JobTableDTO jobTableDTO)
         {
             try
