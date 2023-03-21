@@ -8,5 +8,10 @@ namespace miniOdev.Extension
         {
             return applicationBuilder.UseMiddleware<QuartzStopStartMiddleware>(serviceProvider);
         }
+
+        public static IApplicationBuilder UseIpAddress(this IApplicationBuilder applicationBuilder, ServiceProvider serviceProvider)
+        {
+            return applicationBuilder.UseMiddleware<IpAddressMiddleware>(serviceProvider);
+        }     
     }
 }

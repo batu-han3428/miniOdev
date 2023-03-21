@@ -16,7 +16,6 @@ namespace miniOdev.Middlewares
         {
             await _next.Invoke(context);
 
-
             if (context.Request.Path == "/Home/JobPage" && context.Request.Method == "POST" )
             {
                 SchedulerHelper.ResetJob(_builder);

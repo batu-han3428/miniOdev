@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DOMAIN.Migrations
 {
     [DbContext(typeof(SqlDbContext))]
-    [Migration("20221126094651_initDb1")]
-    partial class initDb1
+    [Migration("20221128183026_VisitorInformationUpdate1")]
+    partial class VisitorInformationUpdate1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,6 +196,156 @@ namespace DOMAIN.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DOMAIN.Models.VisitorInformation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AsnId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CallingCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContinentCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContinentName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmojiFlag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmojiUnicode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Flag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsEu")
+                        .HasColumnType("bit");
+
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Organisation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Postal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Process")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Region")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegionCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ThreatId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AsnId");
+
+                    b.HasIndex("ThreatId");
+
+                    b.ToTable("VisitorInformation");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.VisitorInformationAsn", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Asn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Domain")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Route")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VisitorInformationAsn");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.VisitorInformationThreat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool?>("IsAnonymous")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsBogon")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsKnownAbuser")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsKnownAttacker")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsProxy")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsThreat")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsTor")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VisitorInformationThreat");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -348,6 +498,25 @@ namespace DOMAIN.Migrations
                     b.Navigation("JobType");
                 });
 
+            modelBuilder.Entity("DOMAIN.Models.VisitorInformation", b =>
+                {
+                    b.HasOne("DOMAIN.Models.VisitorInformationAsn", "Asn")
+                        .WithMany("VisitorInformation")
+                        .HasForeignKey("AsnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DOMAIN.Models.VisitorInformationThreat", "Threat")
+                        .WithMany("VisitorInformation")
+                        .HasForeignKey("ThreatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asn");
+
+                    b.Navigation("Threat");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -407,6 +576,16 @@ namespace DOMAIN.Migrations
             modelBuilder.Entity("DOMAIN.Models.JobType", b =>
                 {
                     b.Navigation("jobTable");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.VisitorInformationAsn", b =>
+                {
+                    b.Navigation("VisitorInformation");
+                });
+
+            modelBuilder.Entity("DOMAIN.Models.VisitorInformationThreat", b =>
+                {
+                    b.Navigation("VisitorInformation");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,12 +23,15 @@ namespace DOMAIN.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=94.73.151.19;Database=u0800400_dbOdev;User Id=u0800400_usOdev;Password=MiniOdev34.....;");
+            optionsBuilder.UseSqlServer(@"server=94.73.170.49;Database=u0800400_dbOdev;User Id=u0800400_usOdev;Password=MiniOdev34.....;");
         }
 
         public DbSet<HastaBilgileri> HastaBilgileri { get; set; }
         public DbSet<JobTable> JobTable { get; set; }
         public DbSet<JobType> JobType { get; set; }
+        public DbSet<VisitorInformation> VisitorInformation { get; set; }
+        public DbSet<VisitorInformationAsn> VisitorInformationAsn { get; set; }
+        public DbSet<VisitorInformationThreat> VisitorInformationThreat { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

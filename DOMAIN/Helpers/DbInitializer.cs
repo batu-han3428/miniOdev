@@ -41,6 +41,15 @@ namespace DOMAIN.Helpers
                new JobType { ID_JOB_TYPE = 2, JOB_TYPE_NAME = "Haftalık" },
                new JobType { ID_JOB_TYPE = 3, JOB_TYPE_NAME = "Aylık" }
            );
+
+            modelBuilder.Entity<VisitorInformation>()
+             .HasOne<VisitorInformationAsn>(s => s.Asn)
+             .WithMany(g => g.VisitorInformation);
+
+
+            modelBuilder.Entity<VisitorInformation>()
+             .HasOne<VisitorInformationThreat>(s => s.Threat)
+             .WithMany(g => g.VisitorInformation);
         }
     }
 

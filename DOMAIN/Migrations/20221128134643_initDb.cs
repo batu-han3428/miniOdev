@@ -79,6 +79,42 @@ namespace DOMAIN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VisitorInformationAsn",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Asn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Domain = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Route = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VisitorInformationAsn", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VisitorInformationThreat",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsTor = table.Column<bool>(type: "bit", nullable: true),
+                    IsProxy = table.Column<bool>(type: "bit", nullable: true),
+                    IsAnonymous = table.Column<bool>(type: "bit", nullable: true),
+                    IsKnownAttacker = table.Column<bool>(type: "bit", nullable: true),
+                    IsKnownAbuser = table.Column<bool>(type: "bit", nullable: true),
+                    IsThreat = table.Column<bool>(type: "bit", nullable: true),
+                    IsBogon = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VisitorInformationThreat", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -190,14 +226,12 @@ namespace DOMAIN.Migrations
                 {
                     ID_JOB = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ID_JOB_TYPE = table.Column<int>(type: "int", nullable: false),
-                    JobTypeID_JOB_TYPE = table.Column<int>(type: "int", nullable: false),
+                    JobTypeId = table.Column<int>(type: "int", nullable: false),
                     JOB_KEY = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     JOB_TIME = table.Column<TimeSpan>(type: "time", nullable: false),
                     DAY = table.Column<int>(type: "int", nullable: true),
                     IS_ACTIVE = table.Column<bool>(type: "bit", nullable: false),
                     DESCRIPTION = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -210,10 +244,54 @@ namespace DOMAIN.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_JobTable_JobType_JobTypeID_JOB_TYPE",
-                        column: x => x.JobTypeID_JOB_TYPE,
+                        name: "FK_JobTable_JobType_JobTypeId",
+                        column: x => x.JobTypeId,
                         principalTable: "JobType",
                         principalColumn: "ID_JOB_TYPE",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VisitorInformation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ip = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsEu = table.Column<bool>(type: "bit", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegionCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContinentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContinentCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Latitude = table.Column<double>(type: "float", nullable: true),
+                    Longitude = table.Column<double>(type: "float", nullable: true),
+                    AsnId = table.Column<int>(type: "int", nullable: false),
+                    Organisation = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Postal = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CallingCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Flag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmojiFlag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmojiUnicode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ThreatId = table.Column<int>(type: "int", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VisitorInformation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VisitorInformation_VisitorInformationAsn_AsnId",
+                        column: x => x.AsnId,
+                        principalTable: "VisitorInformationAsn",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VisitorInformation_VisitorInformationThreat_ThreatId",
+                        column: x => x.ThreatId,
+                        principalTable: "VisitorInformationThreat",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -277,9 +355,19 @@ namespace DOMAIN.Migrations
                 column: "CustomUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobTable_JobTypeID_JOB_TYPE",
+                name: "IX_JobTable_JobTypeId",
                 table: "JobTable",
-                column: "JobTypeID_JOB_TYPE");
+                column: "JobTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VisitorInformation_AsnId",
+                table: "VisitorInformation",
+                column: "AsnId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VisitorInformation_ThreatId",
+                table: "VisitorInformation",
+                column: "ThreatId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -306,6 +394,9 @@ namespace DOMAIN.Migrations
                 name: "JobTable");
 
             migrationBuilder.DropTable(
+                name: "VisitorInformation");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -313,6 +404,12 @@ namespace DOMAIN.Migrations
 
             migrationBuilder.DropTable(
                 name: "JobType");
+
+            migrationBuilder.DropTable(
+                name: "VisitorInformationAsn");
+
+            migrationBuilder.DropTable(
+                name: "VisitorInformationThreat");
         }
     }
 }

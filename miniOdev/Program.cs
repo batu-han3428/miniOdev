@@ -31,6 +31,8 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy => {
 
 builder.Services.AddScoped<IVeriGirisiServices, VeriGirisiServices>();
 builder.Services.AddScoped<IVeriGirisiRepository, VeriGirisiRepository>();
+builder.Services.AddScoped<IVisitorInformationServices, VisitorInformationServices>();
+builder.Services.AddScoped<IVisitorInformationRepository, VisitorInformationRepository>();
 builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
 builder.Services.AddScoped<IRabbitMQConfiguration, RabbitMQConfiguration>();
 builder.Services.AddScoped<IObjectConvertFormat, ObjectConvertToFormatManager>();
@@ -48,21 +50,21 @@ var serviceProvider = builder.Services.BuildServiceProvider();
 
 builder.Services.AddQuartz(q =>
 {
-    var serviceCollection = new ServiceCollection();
-    serviceCollection.AddScoped<RealJob>();
-    serviceCollection.AddScoped<IVeriGirisiServices, VeriGirisiServices>();
-    serviceCollection.AddScoped<IVeriGirisiRepository, VeriGirisiRepository>();
-    serviceCollection.AddScoped<IRabbitMQService, RabbitMQService>();
-    serviceCollection.AddScoped<IRabbitMQConfiguration, RabbitMQConfiguration>();
-    serviceCollection.AddScoped<IObjectConvertFormat, ObjectConvertToFormatManager>();
-    serviceCollection.AddScoped<IMailSender, MailSender>();
-    serviceCollection.AddScoped<IDataModel<User>, UsersDataModel>();
-    serviceCollection.AddScoped<ISmtpConfiguration, SmtpConfiguration>();
-    serviceCollection.AddScoped<IPublisherService, PublisherManager>();
-    serviceCollection.AddScoped<IConsumerService, ConsumerManager>();
-    serviceCollection.AddScoped<IJobServices, JobServices>();
-    serviceCollection.AddScoped<IJobRepository, JobRepository>();
-    serviceCollection.AddScoped<IConfiguration>();
+    //var serviceCollection = new ServiceCollection();
+    //serviceCollection.AddScoped<RealJob>();
+    //serviceCollection.AddScoped<IVeriGirisiServices, VeriGirisiServices>();
+    //serviceCollection.AddScoped<IVeriGirisiRepository, VeriGirisiRepository>();
+    //serviceCollection.AddScoped<IRabbitMQService, RabbitMQService>();
+    //serviceCollection.AddScoped<IRabbitMQConfiguration, RabbitMQConfiguration>();
+    //serviceCollection.AddScoped<IObjectConvertFormat, ObjectConvertToFormatManager>();
+    //serviceCollection.AddScoped<IMailSender, MailSender>();
+    //serviceCollection.AddScoped<IDataModel<User>, UsersDataModel>();
+    //serviceCollection.AddScoped<ISmtpConfiguration, SmtpConfiguration>();
+    //serviceCollection.AddScoped<IPublisherService, PublisherManager>();
+    //serviceCollection.AddScoped<IConsumerService, ConsumerManager>();
+    //serviceCollection.AddScoped<IJobServices, JobServices>();
+    //serviceCollection.AddScoped<IJobRepository, JobRepository>();
+    //serviceCollection.AddScoped<IConfiguration>();
     
    
 
@@ -141,6 +143,8 @@ app.UseRequestLocalizationCookies();
 app.UseRouting();
 
 app.UseQuartzStopStart(serviceProvider);
+
+app.UseIpAddress(serviceProvider);
 
 app.UseAuthentication();
 
